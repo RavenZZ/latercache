@@ -26,7 +26,7 @@ type myData struct{
 
 func main() {
     // Set Global Expire, every group will follow this option
-    SetGlobalCacheExpire(time.Second * 8)
+    cache.SetGlobalCacheExpire(time.Second * 8)
     group1 := cache.Cache("groupname1")
 
     group1.SetCacheGroupExpireCallback(func(group *CacheGroup) {
