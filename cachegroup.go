@@ -42,7 +42,6 @@ func (group *CacheGroup) SetCacheGroupExpireCallback(f func(*CacheGroup)) {
 // Push add Cache item to group
 func (group *CacheGroup) Push(key string, data interface{}) *CacheItem {
 	item := NewCacheItem(key, data)
-
 	group.Lock()
 	group.addInternal(item)
 	return item
@@ -57,14 +56,12 @@ func (group *CacheGroup) Count() int {
 
 // addInternal  internal function for
 func (group *CacheGroup) addInternal(item *CacheItem) {
-
 	group.Values = append(group.Values, item)
 	group.Unlock()
 }
 
 // checkExpiration Expiration check loop
 func (group *CacheGroup) checkExpiration() {
-	fmt.Println("Check start")
 	group.Lock()
 	if group.cleanuptimer != nil {
 		group.cleanuptimer.Stop()
@@ -72,14 +69,9 @@ func (group *CacheGroup) checkExpiration() {
 
 	now := time.Now()
 
-	fmt.Println("Check 2")
-	fmt.Println(group.createTime)
-	fmt.Println(group.life)
 	if now.Sub(group.createTime) >= group.life {
-		fmt.Println("Check 3")
 		group.groupExpire()
 	} else {
-		fmt.Println("Check 4")
 		group.cleanuptimer = time.AfterFunc(group.cleanupInterval, func() {
 			go group.checkExpiration()
 		})
@@ -89,12 +81,10 @@ func (group *CacheGroup) checkExpiration() {
 
 func (group *CacheGroup) groupExpire() {
 	if group.allExpire != nil {
-		fmt.Println("zzzzzzz")
 		delete(cache, group.GroupName)
 		group.allExpire(group)
 		group.allExpire = nil
 	} else if globalExpireCallback != nil {
-		fmt.Println("zzzzzzz")
 		delete(cache, group.GroupName)
 		globalExpireCallback(group)
 		group.allExpire = nil

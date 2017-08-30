@@ -1,7 +1,6 @@
 package groupcache
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -43,7 +42,7 @@ func Cache(group string) *CacheGroup {
 				cleanupInterval: time.Duration(1 * time.Second),
 				life:            globalLifeSpan,
 			}
-			fmt.Println("xxxxx")
+
 			t.checkExpiration()
 			cache[group] = t
 		}
