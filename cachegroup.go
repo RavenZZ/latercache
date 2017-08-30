@@ -11,10 +11,10 @@ type CacheGroup struct {
 	sync.RWMutex
 
 	// the group of name
-	Groupname string
+	GroupName string
 
 	// cacheItems slice
-	values []*CacheItem
+	Values []*CacheItem
 
 	// group's HP
 	life time.Duration
@@ -52,13 +52,13 @@ func (group *CacheGroup) Push(key string, data interface{}) *CacheItem {
 func (group *CacheGroup) Count() int {
 	group.RLock()
 	defer group.RUnlock()
-	return len(group.values)
+	return len(group.Values)
 }
 
 // addInternal  internal function for
 func (group *CacheGroup) addInternal(item *CacheItem) {
 
-	group.values = append(group.values, item)
+	group.Values = append(group.Values, item)
 	group.Unlock()
 }
 
@@ -90,12 +90,12 @@ func (group *CacheGroup) checkExpiration() {
 func (group *CacheGroup) groupExpire() {
 	if group.allExpire != nil {
 		fmt.Println("zzzzzzz")
-		delete(cache, group.Groupname)
+		delete(cache, group.GroupName)
 		group.allExpire(group)
 		group.allExpire = nil
 	} else if globalExpireCallback != nil {
 		fmt.Println("zzzzzzz")
-		delete(cache, group.Groupname)
+		delete(cache, group.GroupName)
 		globalExpireCallback(group)
 		group.allExpire = nil
 	} else {
