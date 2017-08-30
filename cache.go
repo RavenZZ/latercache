@@ -38,7 +38,7 @@ func Cache(group string) *CacheGroup {
 		if !ok {
 			t = &CacheGroup{
 				GroupName:       group,
-				values:          []*CacheItem{},
+				Values:          []*CacheItem{},
 				createTime:      time.Now(),
 				cleanupInterval: time.Duration(1 * time.Second),
 				life:            globalLifeSpan,
