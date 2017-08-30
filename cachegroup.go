@@ -11,7 +11,7 @@ type CacheGroup struct {
 	sync.RWMutex
 
 	// the group of name
-	groupname string
+	Groupname string
 
 	// cacheItems slice
 	values []*CacheItem
@@ -90,12 +90,12 @@ func (group *CacheGroup) checkExpiration() {
 func (group *CacheGroup) groupExpire() {
 	if group.allExpire != nil {
 		fmt.Println("zzzzzzz")
-		delete(cache, group.groupname)
+		delete(cache, group.Groupname)
 		group.allExpire(group)
 		group.allExpire = nil
 	} else if globalExpireCallback != nil {
 		fmt.Println("zzzzzzz")
-		delete(cache, group.groupname)
+		delete(cache, group.Groupname)
 		globalExpireCallback(group)
 		group.allExpire = nil
 	} else {
