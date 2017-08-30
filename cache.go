@@ -9,13 +9,19 @@ import (
 var (
 	cache = make(map[string]*CacheGroup)
 	// set zero for never expire
-	globalLifeSpan = time.Nanosecond //time.Duration(time.Minute * 5)
-	mutex          sync.RWMutex
+	globalLifeSpan       = time.Nanosecond //time.Duration(time.Minute * 5)
+	mutex                sync.RWMutex
+	globalExpireCallback func(group *CacheGroup)
 )
 
 // SetGlobalCacheExpire Set all cache groups lifespan
 func SetGlobalCacheExpire(life time.Duration) {
 	globalLifeSpan = life
+}
+
+// SetGlobalCacheExpireCallback Set Global Expire Function
+func SetGlobalCacheExpireCallback(f func(*CacheGroup)) {
+	globalExpireCallback = f
 }
 
 // Cache if exists the cache group return the cache group ;
@@ -34,7 +40,7 @@ func Cache(group string) *CacheGroup {
 				groupname:       group,
 				values:          []*CacheItem{},
 				createTime:      time.Now(),
-				cleanupInterval: time.Duration(5 * time.Second),
+				cleanupInterval: time.Duration(1 * time.Second),
 				life:            globalLifeSpan,
 			}
 			fmt.Println("xxxxx")

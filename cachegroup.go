@@ -32,7 +32,7 @@ type CacheGroup struct {
 	allExpire func(group *CacheGroup)
 }
 
-// SetCacheGroupExpireCallback set the callback method for cachegroup expire
+// SetCacheGroupExpireCallback overrite global method for cachegroup expire
 func (group *CacheGroup) SetCacheGroupExpireCallback(f func(*CacheGroup)) {
 	group.Lock()
 	defer group.Unlock()
@@ -89,8 +89,14 @@ func (group *CacheGroup) checkExpiration() {
 
 func (group *CacheGroup) groupExpire() {
 	if group.allExpire != nil {
+		fmt.Println("zzzzzzz")
 		delete(cache, group.groupname)
 		group.allExpire(group)
+		group.allExpire = nil
+	} else if globalExpireCallback != nil {
+		fmt.Println("zzzzzzz")
+		delete(cache, group.groupname)
+		globalExpireCallback(group)
 		group.allExpire = nil
 	} else {
 		fmt.Println("expire function has not set")
