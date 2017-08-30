@@ -13,7 +13,7 @@ type CacheItem struct {
 	key string
 
 	// data
-	value interface{}
+	Value interface{}
 
 	// item create time
 	createTime time.Time
@@ -27,7 +27,7 @@ func NewCacheItem(key string, data interface{}) *CacheItem {
 	t := time.Now()
 	return &CacheItem{
 		key:        key,
-		value:      data,
+		Value:      data,
 		createTime: t,
 	}
 }

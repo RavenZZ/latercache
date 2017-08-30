@@ -39,7 +39,7 @@ func TestCacheWithExpire(t *testing.T) {
 	// 	fmt.Println("expired=====items count:", len(group.values))
 	// })
 	someid := RandStringRunes(10)
-	v1 := "some value"
+	v1 := "some Value"
 	group1.Push(someid, v1)
 	v2 := "some value2"
 	group1.Push(someid, v2)
@@ -61,7 +61,7 @@ func TestExpireNow(t *testing.T) {
 		fmt.Println("expired=====items count:", len(group.Values))
 	})
 	someid := RandStringRunes(10)
-	v1 := "some value"
+	v1 := "some Value"
 	group1.Push(someid, v1)
 	v2 := "some value2"
 	group1.Push(someid, v2)
@@ -82,7 +82,7 @@ func TestPointer(t *testing.T) {
 		fmt.Println(group.Count())
 		for _, val := range group.All() {
 			v := val
-			fmt.Println(v.value.(*a).name)
+			fmt.Println(v.Value.(*a).name)
 		}
 		fmt.Println("expired=====items count:", group.Count())
 	})
@@ -101,7 +101,7 @@ func TestPointer(t *testing.T) {
 	fmt.Println("==expired=====items count:", Cache("user1:module1").Count())
 	// for _, val := range group1.All() {
 	// 	v := val
-	// 	fmt.Println(v.value.(*a).name)
+	// 	fmt.Println(v.Value.(*a).name)
 	// }
 	// fmt.Println("expired=====items count:", group1.Count())
 }
