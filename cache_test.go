@@ -26,7 +26,7 @@ var ()
 func TestCacheWithExpire(t *testing.T) {
 	fmt.Println("start")
 	SetGlobalCacheExpireCallback(func(group *CacheGroup) {
-		fmt.Println("expired=====items count:", len(group.values))
+		fmt.Println("expired=====items count:", len(group.Values))
 	})
 	SetGlobalCacheExpire(time.Second * 6)
 	group1 := Cache("user1:module1")
@@ -45,7 +45,7 @@ func TestCacheWithExpire(t *testing.T) {
 	group1.Push(someid, v4)
 	time.Sleep(10 * time.Second)
 
-	fmt.Println("==expired=====items count:", len(Cache("user1:module1").values))
+	fmt.Println("==expired=====items count:", len(Cache("user1:module1").Values))
 
 }
 
@@ -54,7 +54,7 @@ func TestExpireNow(t *testing.T) {
 	group1 := Cache("user1:module1")
 	//fmt.Println(group1)
 	group1.SetCacheGroupExpireCallback(func(group *CacheGroup) {
-		fmt.Println("expired=====items count:", len(group.values))
+		fmt.Println("expired=====items count:", len(group.Values))
 	})
 	someid := RandStringRunes(10)
 	v1 := "some value"
@@ -67,5 +67,5 @@ func TestExpireNow(t *testing.T) {
 	group1.Push(someid, v4)
 	time.Sleep(2 * time.Second)
 	group1.ExpireNow()
-	fmt.Println("==expired=====items count:", len(Cache("user1:module1").values))
+	fmt.Println("==expired=====items count:", len(Cache("user1:module1").Values))
 }
