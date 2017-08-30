@@ -1,4 +1,4 @@
-groupcache
+latercache
 ==========
 
 golang caching library 
@@ -8,7 +8,7 @@ so you can handle items in one method
 ## Installation
 
 ```
-    go get -u github.com/ravenzz/groupcache
+    go get -u github.com/ravenzz/latercache
 ```
 
 ## Example
@@ -17,7 +17,7 @@ so you can handle items in one method
 package main
 
 import (
-    cache "github.com/ravenzz/groupcache"
+    cache "github.com/ravenzz/latercache"
 )
 
 type myData struct{
