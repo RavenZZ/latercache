@@ -54,6 +54,13 @@ func (group *CacheGroup) Count() int {
 	return len(group.Values)
 }
 
+// All getall
+func (group *CacheGroup) All() []*CacheItem {
+	group.RLock()
+	defer group.RUnlock()
+	return group.Values
+}
+
 // addInternal  internal function for
 func (group *CacheGroup) addInternal(item *CacheItem) {
 	group.Values = append(group.Values, item)
@@ -75,17 +82,20 @@ func (group *CacheGroup) checkExpiration() {
 		group.cleanuptimer = time.AfterFunc(group.cleanupInterval, func() {
 			go group.checkExpiration()
 		})
+		group.Unlock()
 	}
-	group.Unlock()
+
 }
 
 func (group *CacheGroup) groupExpire() {
 	if group.allExpire != nil {
 		delete(cache, group.GroupName)
+		group.Unlock()
 		group.allExpire(group)
 		group.allExpire = nil
 	} else if globalExpireCallback != nil {
 		delete(cache, group.GroupName)
+		group.Unlock()
 		globalExpireCallback(group)
 		group.allExpire = nil
 	} else {

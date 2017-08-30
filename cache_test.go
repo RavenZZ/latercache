@@ -11,6 +11,10 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
+type a struct {
+	name string
+}
+
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 func RandStringRunes(n int) string {
@@ -71,26 +75,33 @@ func TestExpireNow(t *testing.T) {
 }
 
 func TestPointer(t *testing.T) {
-	SetGlobalCacheExpire(time.Second * 8)
+	SetGlobalCacheExpire(time.Second * 4)
 	group1 := Cache("user1:module1")
 	//fmt.Println(group1)
 	group1.SetCacheGroupExpireCallback(func(group *CacheGroup) {
-		for _, val := range group.Values {
+		fmt.Println(group.Count())
+		for _, val := range group.All() {
 			v := val
-			fmt.Println(*v.value.(*string))
+			fmt.Println(v.value.(*a).name)
 		}
-		fmt.Println("expired=====items count:", len(group.Values))
+		fmt.Println("expired=====items count:", group.Count())
 	})
 	someid := RandStringRunes(10)
-	v1 := "some value"
+	v1 := a{name: "some value1"}
 	group1.Push(someid, &v1)
-	v2 := "some value2"
+	v2 := a{name: "some value2"}
 	group1.Push(someid, &v2)
-	v3 := "some value3"
+	v3 := a{name: "some value3"}
 	group1.Push(someid, &v3)
-	v4 := "some value4"
+	v4 := a{name: "some value4"}
 	group1.Push(someid, &v4)
-	time.Sleep(2 * time.Second)
-	group1.ExpireNow()
-	fmt.Println("==expired=====items count:", len(Cache("user1:module1").Values))
+	fmt.Println(group1.Count())
+	time.Sleep(6 * time.Second)
+	//	group1.ExpireNow()
+	fmt.Println("==expired=====items count:", Cache("user1:module1").Count())
+	// for _, val := range group1.All() {
+	// 	v := val
+	// 	fmt.Println(v.value.(*a).name)
+	// }
+	// fmt.Println("expired=====items count:", group1.Count())
 }
