@@ -1,7 +1,6 @@
 package groupcache
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -77,6 +76,7 @@ func (group *CacheGroup) checkExpiration() {
 	now := time.Now()
 
 	if now.Sub(group.createTime) >= group.life {
+		group.cleanuptimer.Stop()
 		group.groupExpire()
 	} else {
 		group.cleanuptimer = time.AfterFunc(group.cleanupInterval, func() {
@@ -95,7 +95,6 @@ func (group *CacheGroup) groupExpire() {
 		group.allExpire = nil
 	} else {
 		group.Unlock()
-		fmt.Println("expire function has not set")
 	}
 }
 

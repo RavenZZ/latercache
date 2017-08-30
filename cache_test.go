@@ -131,10 +131,10 @@ func TestExpire(t *testing.T) {
 	group1.ExpireNow()
 
 	time.Sleep(10 * time.Second)
-	//	group1.ExpireNow()
+	// //	group1.ExpireNow()
 	fmt.Println("==expired=====items count:", Cache("user1:module1").Count())
-	group2 := Cache("user1:module1")
-	group2.Push(someid, &v1)
-	group2.ExpireNow()
+	// group2 := Cache("user1:module1")
+	// group2.Push(someid, &v1)
+	// group2.ExpireNow()
 
 }
