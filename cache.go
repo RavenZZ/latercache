@@ -41,6 +41,7 @@ func Cache(group string) *CacheGroup {
 				createTime:      time.Now(),
 				cleanupInterval: time.Duration(1 * time.Second),
 				life:            globalLifeSpan,
+				allExpire:       globalExpireCallback,
 			}
 
 			t.checkExpiration()

@@ -93,12 +93,8 @@ func (group *CacheGroup) groupExpire() {
 		group.Unlock()
 		group.allExpire(group)
 		group.allExpire = nil
-	} else if globalExpireCallback != nil {
-		delete(cache, group.GroupName)
-		group.Unlock()
-		globalExpireCallback(group)
-		group.allExpire = nil
 	} else {
+		group.Unlock()
 		fmt.Println("expire function has not set")
 	}
 }

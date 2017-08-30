@@ -99,12 +99,42 @@ func TestPointer(t *testing.T) {
 	time.Sleep(1 * time.Second)
 	group1.ExpireNow()
 
-	time.Sleep(6 * time.Second)
+	time.Sleep(10 * time.Second)
 	//	group1.ExpireNow()
 	fmt.Println("==expired=====items count:", Cache("user1:module1").Count())
-	// for _, val := range group1.All() {
-	// 	v := val
-	// 	fmt.Println(v.Value.(*a).name)
-	// }
-	// fmt.Println("expired=====items count:", group1.Count())
+
+}
+
+func TestExpire(t *testing.T) {
+	SetGlobalCacheExpire(time.Second * 4)
+
+	SetGlobalCacheExpireCallback(func(group *CacheGroup) {
+		fmt.Println(group.Count())
+		for _, val := range group.All() {
+			v := val
+			fmt.Println(v.Value.(*a).name)
+		}
+		fmt.Println("expired=====items count:", group.Count())
+	})
+	group1 := Cache("user1:module1")
+	someid := RandStringRunes(10)
+	v1 := a{name: "some value1"}
+	group1.Push(someid, &v1)
+	v2 := a{name: "some value2"}
+	group1.Push(someid, &v2)
+	v3 := a{name: "some value3"}
+	group1.Push(someid, &v3)
+	v4 := a{name: "some value4"}
+	group1.Push(someid, &v4)
+	fmt.Println(group1.Count())
+	time.Sleep(1 * time.Second)
+	group1.ExpireNow()
+
+	time.Sleep(10 * time.Second)
+	//	group1.ExpireNow()
+	fmt.Println("==expired=====items count:", Cache("user1:module1").Count())
+	group2 := Cache("user1:module1")
+	group2.Push(someid, &v1)
+	group2.ExpireNow()
+
 }
