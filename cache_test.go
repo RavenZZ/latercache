@@ -96,6 +96,9 @@ func TestPointer(t *testing.T) {
 	v4 := a{name: "some value4"}
 	group1.Push(someid, &v4)
 	fmt.Println(group1.Count())
+	time.Sleep(1 * time.Second)
+	group1.ExpireNow()
+
 	time.Sleep(6 * time.Second)
 	//	group1.ExpireNow()
 	fmt.Println("==expired=====items count:", Cache("user1:module1").Count())

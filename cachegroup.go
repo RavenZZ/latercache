@@ -105,5 +105,6 @@ func (group *CacheGroup) groupExpire() {
 
 // ExpireNow Do expiration now ~
 func (group *CacheGroup) ExpireNow() {
+	group.Lock()
 	group.groupExpire()
 }
