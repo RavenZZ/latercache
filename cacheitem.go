@@ -9,8 +9,8 @@ import (
 type CacheItem struct {
 	sync.RWMutex
 
-	// items key for ensure that we cannot add data twice
-	key string
+	// items Key for ensure that we cannot add data twice
+	Key string
 
 	// data
 	Value interface{}
@@ -26,7 +26,7 @@ type CacheItem struct {
 func NewCacheItem(key string, data interface{}) *CacheItem {
 	t := time.Now()
 	return &CacheItem{
-		key:        key,
+		Key:        key,
 		Value:      data,
 		createTime: t,
 	}
